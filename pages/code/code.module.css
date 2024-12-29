@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+.main {
+  width: 100%;
+  font-family: "Outfit", sans-serif;
+
+  background: linear-gradient(to bottom right, rgba(183, 135, 245, 1), rgba(116, 62, 228, 1));
+}
+
+.content {
+  background-image: url('../../src/assets/Hero-Background-notecode@2x.png');
+  background-repeat: no-repeat;
+  background-position: center top;
+  width: 100%;
+  background-size: cover;
+  background-attachment: fixed;
+  padding: 4rem 30rem 20rem 30rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--black);
+}
+
+.header h1 {
+  font-size: 3.2rem;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+
+.header h2 {
+  font-size: 4rem;
+  margin-bottom: 4rem;
+}
+
+.editor_container {
+  width: 70vw;
+}
+
+.editor {
+  height: 100vh;
+  width: 100%;
+}
+
+.container_actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.container_options {
+  content: '';
+  position: absolute;
+  bottom: 5rem;
+  left: 4rem;
+}
+
+.container_options select {
+  background-color: var(--lightgray);
+  color: var(--gray);
+  font-size: 1.6rem;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  width: 15rem;
+  height: 4rem;
+  padding: 0 1rem;
+  border-radius: 25rem;
+  border: 0;
+  margin-right: 2rem;
+}
+
+.button_share {
+  content: '';
+  position: absolute;
+  bottom: 5rem;
+  right: 4rem;
+  width: 16rem;
+  height: 6rem;
+  padding: 0 1rem;
+  background-color: var(--blue);
+  border: 0;
+  border-radius: 25rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
+.button_link {
+  content: '';
+  position: absolute;
+  bottom: 5rem;
+  right: 24rem;
+  height: 6rem;
+  padding: 0 1rem;
+  background-color: transparent;
+  border: 0;
+  border-radius: 25rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
+.button_link:hover {
+  background-color: #67748930;
+  transition: all .3s ease-in-out;
+}
+
+.button_share:hover {
+  filter: brightness(1.3);
+  transition: all .3s ease-in-out;
+}
+
+.button_share:disabled {
+  background-color: #677489;
+  cursor: not-allowed;
+}
+
+.button_share:disabled:hover {
+  filter: brightness(1.0);
+}
+
+.copy_success {
+  color: green;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  display: block;
+}

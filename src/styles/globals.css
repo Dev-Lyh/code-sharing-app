@@ -1,0 +1,25 @@
+:root {
+  --white: #FFFFFE;
+  --black: #121826;
+  --gray: #364153;
+  --lightgray: #CED6E1;
+  --blue: #406AFF;
+}
+
+* {
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+}
+
+.overflow-guard {
+  border-radius: 1rem;
+}
