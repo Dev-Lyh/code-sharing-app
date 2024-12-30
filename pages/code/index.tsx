@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './code.module.css';
 import { useRouter } from 'next/router';
 import { Code } from '@/types/Code';
@@ -29,7 +29,6 @@ export default function CodePage() {
   </body>
 </html>`,
     lang: 'html',
-    sharing_id: '',
     theme: 'light',
   });
 
@@ -80,7 +79,7 @@ export default function CodePage() {
                 }}
               >
                 {langs.map((lang: string) => (
-                  <option value={lang}>{lang.toUpperCase()}</option>
+                  <option value={lang} key={lang}>{lang.toUpperCase()}</option>
                 ))}
               </select>
               <select

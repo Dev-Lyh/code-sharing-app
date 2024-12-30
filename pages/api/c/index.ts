@@ -1,14 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../firebaseConfig';
-import { collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore';
+import { updateDoc, doc } from 'firebase/firestore';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { id } = req.query;
-
-  const codesCollections = collection(db, 'codes');
 
   if (!id || typeof id !== 'string') {
     return res.status(400).json({ message: 'ID inválido' });
@@ -26,8 +24,8 @@ export default async function handler(
       return res
         .status(200)
         .json({ message: 'Empresa atualizada com sucesso!' });
-    } catch (error: any) {
-      return res.status(500).json({ error: error.message });
+    } catch (error) {
+      return res.status(500).json({ error });
     }
   } else {
     res.status(405).json({ message: 'Método não permitido' });

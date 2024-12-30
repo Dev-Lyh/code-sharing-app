@@ -1,5 +1,5 @@
 import { db } from '../../../firebaseConfig';
-import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -21,8 +21,8 @@ export default async function handler(
         return res.status(404).json({ message: 'Code não encontrado' });
       }
       res.status(200).json({ id, ...docSnapshot.data() });
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
+    } catch (error) {
+      res.status(500).json({ error });
     }
   }
 }

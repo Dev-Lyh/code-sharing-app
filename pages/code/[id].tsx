@@ -14,12 +14,9 @@ export default function CodePage() {
     lang: 'html',
     theme: 'light',
   });
-  const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
   const { id } = router.query;
-  const [copySuccess, setCopySuccess] = useState<string | null>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [editingStatus, setEditingStatus] = useState('Saved');
 
   useEffect(() => {
     if (id) {
@@ -41,8 +38,6 @@ export default function CodePage() {
   }, [id]);
 
   const saveCode = async (value: string) => {
-    setIsSaving(true);
-    setEditingStatus('Saving...');
     try {
       const response = await fetch(`/api/c?id=${id}`, {
         method: 'PUT',
@@ -51,21 +46,16 @@ export default function CodePage() {
           content: value,
         }),
       });
-      setEditingStatus('Saved');
 
       if (!response.ok) {
         throw new Error(`Erro ao salvar: ${response.statusText}`);
       }
     } catch (error) {
-      setEditingStatus('Error on save');
-    } finally {
-      setIsSaving(false);
+      console.error(error)
     }
   };
 
   const saveThemeAndLang = async (theme: string, lang: string) => {
-    setIsSaving(true);
-    setEditingStatus('Saving...');
     try {
       const response = await fetch(`/api/c?id=${id}`, {
         method: 'PUT',
@@ -80,11 +70,8 @@ export default function CodePage() {
         throw new Error(`Erro ao salvar: ${response.statusText}`);
       }
 
-      setEditingStatus('Saved');
     } catch (error) {
-      setEditingStatus('Error on save');
-    } finally {
-      setIsSaving(false);
+      console.error(error)
     }
   };
 
@@ -94,7 +81,6 @@ export default function CodePage() {
         ...prevState,
         content: value,
       }));
-      setEditingStatus('Writing...');
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
       }
@@ -108,14 +94,6 @@ export default function CodePage() {
     const link = `${window.location.origin}/code/${id}`;
     navigator.clipboard
       .writeText(link)
-      .then(() => {
-        setCopySuccess('Link copied!');
-        setTimeout(() => setCopySuccess(null), 2000);
-      })
-      .catch((err) => {
-        setCopySuccess('Error when copying');
-        setTimeout(() => setCopySuccess(null), 2000);
-      });
   };
 
   return (

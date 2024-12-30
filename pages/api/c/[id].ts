@@ -20,8 +20,8 @@ export default async function handler(
       await updateDoc(codeDoc, updates);
 
       return res.status(200).json({ message: 'Empresa atualizada com sucesso!' });
-    } catch (error: any) {
-      return res.status(500).json({ error: error.message });
+    } catch (error) {
+      return res.status(500).json({ error });
     }
   } else {
     // Caso o método não seja PUT, retorne um erro 405 Method Not Allowed

@@ -13,8 +13,8 @@ export default async function handler(
       const snapshot = await getDocs(codesCollections);
       const apps = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       res.status(200).json(apps);
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
+    } catch (error) {
+      res.status(500).json({ error });
     }
   } else if (req.method === 'POST') {
     try {
@@ -23,8 +23,8 @@ export default async function handler(
       res
         .status(201)
         .json({ id: docRef.id, message: 'Code criado com sucesso!' });
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
+    } catch (error) {
+      res.status(500).json({ error });
     }
   } else {
     res.status(405).json({ message: 'Método não permitido' });
