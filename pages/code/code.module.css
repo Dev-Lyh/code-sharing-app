@@ -140,9 +140,79 @@
   filter: brightness(1.0);
 }
 
-.copy_success {
-  color: green;
-  font-size: 0.9rem;
-  margin-top: 5px;
-  display: block;
+@media (max-width: 1024px) {
+  .content {
+    padding: 4rem 10rem 20rem 10rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .button_share {
+    width: 12rem;
+    bottom: 4rem;
+    right: 4rem;
+  }
+
+  .button_link {
+    font-size: 1.4rem;
+    bottom: 10rem;
+    left: 4rem;
+  }
+
+  .container_options select {
+    width: 12rem;
+  }
+
+  .content {
+    background-repeat: no-repeat;
+    background-position: center -20rem;
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 2rem 1rem 20rem 1rem;
+  }
+
+  .header h1 {
+    font-size: 2.2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .header h2 {
+    font-size: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .editor_container {
+    width: 92vw;
+  }
+
+  .editor {
+    height: 70vh;
+  }
+}
+
+@media (max-width: 440px) {
+  .button_share {
+    width: 10rem;
+    height: 4rem;
+    bottom: 2rem;
+    right: 2rem;
+  }
+
+  .button_link {
+    font-size: 1.4rem;
+    bottom: 6rem;
+    left: 0rem;
+    width: fit-content;
+  }
+
+  .container_options {
+    bottom: 2rem;
+    left: 2rem;
+  }
+
+  .container_options select {
+    width: 8rem;
+    font-size: 1.2rem;
+  }
 }

@@ -14,24 +14,25 @@ export default function CodePage() {
     lang: 'html',
     theme: 'light',
   });
-  const [isSaving, setIsSaving] = useState(false); // Estado para indicar se está salvando
+  const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
   const { id } = router.query;
-  const [copySuccess, setCopySuccess] = useState<string | null>(null); 
-  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null); // Referência para o timeout do auto-save
+  const [copySuccess, setCopySuccess] = useState<string | null>(null);
+  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [editingStatus, setEditingStatus] = useState('Saved');
 
   useEffect(() => {
     if (id) {
-      fetch(`/api/codes?id=${id}`, {
+      fetch(`/api/codes/${id}`, {
         method: 'GET',
       })
         .then((res) => res.json())
         .then((json) => {
-          if (json && json[0]) {
+          if (json) {
             setCode({
-              content: json[0].content || '',
-              lang: json[0].lang || 'javascript',
-              theme: json[0].theme || 'light',
+              content: json.content || '',
+              lang: json.lang || 'javascript',
+              theme: json.theme || 'light',
             });
           }
         })
@@ -39,47 +40,67 @@ export default function CodePage() {
     }
   }, [id]);
 
-  // Função para salvar o conteúdo no backend
-  const saveCode = async () => {
+  const saveCode = async (value: string) => {
     setIsSaving(true);
+    setEditingStatus('Saving...');
     try {
       const response = await fetch(`/api/c?id=${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          content: code.content,
-          lang: code.lang,
-          theme: code.theme,
+          content: value,
         }),
       });
-  
+      setEditingStatus('Saved');
+
       if (!response.ok) {
         throw new Error(`Erro ao salvar: ${response.statusText}`);
       }
-  
-      console.log('Auto-salvo com sucesso');
     } catch (error) {
-      console.error('Erro ao auto-salvar:', error);
+      setEditingStatus('Error on save');
     } finally {
       setIsSaving(false);
     }
   };
-  
-  
 
-  // Debounce para salvar automaticamente após X segundos
+  const saveThemeAndLang = async (theme: string, lang: string) => {
+    setIsSaving(true);
+    setEditingStatus('Saving...');
+    try {
+      const response = await fetch(`/api/c?id=${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          theme: theme,
+          lang: lang,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro ao salvar: ${response.statusText}`);
+      }
+
+      setEditingStatus('Saved');
+    } catch (error) {
+      setEditingStatus('Error on save');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleContentChange = (value: string | undefined) => {
     if (value !== undefined) {
       setCode((prevState) => ({
         ...prevState,
         content: value,
       }));
+      setEditingStatus('Writing...');
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
       }
       saveTimeoutRef.current = setTimeout(() => {
-        saveCode();
-      }, 3000);
+        saveCode(value);
+      }, 2000);
     }
   };
 
@@ -88,12 +109,11 @@ export default function CodePage() {
     navigator.clipboard
       .writeText(link)
       .then(() => {
-        setCopySuccess('Link copiado!');
-        setTimeout(() => setCopySuccess(null), 2000); // Remove a mensagem após 2 segundos
+        setCopySuccess('Link copied!');
+        setTimeout(() => setCopySuccess(null), 2000);
       })
       .catch((err) => {
-        console.error('Erro ao copiar para a área de transferência:', err);
-        setCopySuccess('Erro ao copiar');
+        setCopySuccess('Error when copying');
         setTimeout(() => setCopySuccess(null), 2000);
       });
   };
@@ -101,7 +121,6 @@ export default function CodePage() {
   return (
     <section className={styles.main}>
       <section className={styles.content}>
-      {isSaving && <div className={styles.savingIndicator}>Salvando...</div>}
         <header className={styles.header}>
           <NoteCodeLogo />
           <h1>Create & Share</h1>
@@ -120,12 +139,13 @@ export default function CodePage() {
               <select
                 name="language_selector"
                 id="language_selector"
-                defaultValue={code.lang}
+                value={code.lang}
                 onChange={(e) => {
                   setCode((prevState) => ({
                     ...prevState,
                     lang: e.target.value,
                   }));
+                  saveThemeAndLang(code.theme, e.target.value);
                 }}
               >
                 {langs.map((lang: string) => (
@@ -137,12 +157,13 @@ export default function CodePage() {
               <select
                 name="theme_selector"
                 id="theme_selector"
-                defaultValue={code.theme}
+                value={code.theme}
                 onChange={(e) => {
                   setCode((prevState) => ({
                     ...prevState,
                     theme: e.target.value,
                   }));
+                  saveThemeAndLang(e.target.value, code.lang);
                 }}
               >
                 <option value="light">Light</option>
@@ -166,7 +187,6 @@ export default function CodePage() {
             </button>
           </div>
         </section>
-            {copySuccess && <span className={styles.copy_success}>{copySuccess}</span>}
       </section>
     </section>
   );

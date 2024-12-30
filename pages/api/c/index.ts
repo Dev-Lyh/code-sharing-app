@@ -21,6 +21,8 @@ export default async function handler(
       const updates = req.body;
       await updateDoc(codeDoc, updates);
 
+      console.log(updates)
+
       return res
         .status(200)
         .json({ message: 'Empresa atualizada com sucesso!' });

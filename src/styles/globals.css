@@ -20,6 +20,18 @@ body {
   font-size: 1.6rem;
 }
 
+.monaco-editor,
 .overflow-guard {
   border-radius: 1rem;
+  border: .1rem solid var(--lightgray);
+  box-shadow: 0rem 0rem 5rem 0rem #36415340;
+}
+
+@media (max-width: 640px) {
+
+  .monaco-editor,
+  .overflow-guard {
+    box-shadow: 0rem 0rem 2rem 0rem #36415340;
+  }
+
 }
