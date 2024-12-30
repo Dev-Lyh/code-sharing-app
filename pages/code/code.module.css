@@ -8,7 +8,7 @@
 }
 
 .content {
-  background-image: url('../../src/assets/Hero-Background-notecode@2x.png');
+  background-image: url('/Hero-Background-notecode.svg');
   background-repeat: no-repeat;
   background-position: center top;
   width: 100%;

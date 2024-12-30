@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import styles from './code.module.css';
+import styles from './code/code.module.css';
 import { useRouter } from 'next/router';
 import { Code } from '@/types/Code';
 import { Editor } from '@monaco-editor/react';
-import NoteCodeLogo from '../../src/assets/NoteCodeLogo';
+import NoteCodeLogo from '../src/assets/NoteCodeLogo';
 import { langs } from '@/mocks/langs';
 import ShareIcon from '@/assets/Share';
 
